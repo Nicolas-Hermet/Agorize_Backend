@@ -17,8 +17,10 @@ module DataImport
     csv.each do |row|
       attributes = row.to_hash
       record = model.find_or_create_by(ID => attributes[ID])
-      record.update!(attributes)
+      shorten_attributes = attributes.reject { |key, value| sanitize?(record, key, value) }
+      record.update!(shorten_attributes)
     end
+  end
 
   def get_protected_columns(model)
     SECURE_CHECK[model]
