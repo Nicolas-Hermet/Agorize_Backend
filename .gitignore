@@ -40,3 +40,4 @@ yarn-debug.log*
 .yarn-integrity
 
 personal_notes.md
+/spec/examples.txt
