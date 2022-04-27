@@ -65,6 +65,15 @@ RSpec.describe DataImport do
             expect(Person.first).to have_attributes(address: '10 Rue La bruyère')
           end
         end
+
+        context 'when a column has been removed from database' do
+          let(:person1) { create(:person, reference: '1') }
+          let(:actual_attributes) { person1.attributes }
+
+          it "doesn't raise any error"
+
+          it 'updates existing attributes'
+        end
     end
   end
 end
