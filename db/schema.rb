@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_26_085042) do
+ActiveRecord::Schema.define(version: 2022_04_27_093159) do
 
   create_table "buildings", force: :cascade do |t|
     t.string "reference"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 2022_04_26_085042) do
     t.string "manager_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "histories", force: :cascade do |t|
+    t.string "column"
+    t.string "value"
+    t.string "memorable_type"
+    t.integer "memorable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["memorable_type", "memorable_id"], name: "index_histories_on_memorable"
+    t.index ["memorable_type", "memorable_id"], name: "index_histories_on_memorable_type_and_memorable_id"
   end
 
   create_table "people", force: :cascade do |t|
