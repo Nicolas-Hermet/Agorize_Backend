@@ -33,4 +33,10 @@ module DataImport
   rescue NameError
     nil
   end
+
+  def sanitize?(record, key, value)
+    protected_columns = SECURE_CHECK[record.class.to_s.to_sym]
+    return false unless protected_columns&.include?(key)
+    History.where(memorable: record, column: key, value: value).present?
+  end
 end
