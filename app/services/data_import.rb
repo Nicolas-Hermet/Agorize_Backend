@@ -2,6 +2,10 @@ require 'csv'
 
 module DataImport
   ID = 'reference'
+  SECURE_CHECK = {
+    'Building': ['manager_name'],
+    'Person': %w[email home_phone_number mobile_phone_number address]
+  }.freeze
 
   def update_from_file(file_name)
     return unless File.file?(file_name)
