@@ -19,6 +19,9 @@ module DataImport
       record = model.find_or_create_by(ID => attributes[ID])
       record.update!(attributes)
     end
+
+  def get_protected_columns(model)
+    SECURE_CHECK[model]
   end
 
   private
