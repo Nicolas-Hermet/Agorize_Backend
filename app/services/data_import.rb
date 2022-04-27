@@ -17,7 +17,7 @@ module DataImport
     csv.each do |row|
       attributes = row.to_hash
       record = model.find_or_create_by(ID => attributes[ID])
-      shorten_attributes = attributes.reject { |key, value| sanitize?(record, key, value) }
+      shorten_attributes = attributes.reject { |key, value| sanitize?(record, key, value) }.slice(*record.attributes.keys)
       record.update!(shorten_attributes)
     end
   end
