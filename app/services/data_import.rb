@@ -2,6 +2,10 @@ require 'csv'
 
 module DataImport
   ID = 'reference'
+  SECURE_CHECK = {
+    'Building': ['manager_name'],
+    'Person': %w[email home_phone_number mobile_phone_number address]
+  }.freeze
 
   def update_from_file(file_name)
     return unless File.file?(file_name)
@@ -13,8 +17,13 @@ module DataImport
     csv.each do |row|
       attributes = row.to_hash
       record = model.find_or_create_by(ID => attributes[ID])
-      record.update!(attributes)
+      shorten_attributes = attributes.reject { |key, value| sanitize?(record, key, value) }.slice(*record.attributes.keys)
+      record.update!(shorten_attributes)
     end
+  end
+
+  def get_protected_columns(model)
+    SECURE_CHECK[model]
   end
 
   private
@@ -25,5 +34,11 @@ module DataImport
     file_name[0..-5].singularize.classify.constantize
   rescue NameError
     nil
+  end
+
+  def sanitize?(record, key, value)
+    protected_columns = SECURE_CHECK[record.class.to_s.to_sym]
+    return false unless protected_columns&.include?(key)
+    History.where(memorable: record, column: key, value: value).present?
   end
 end
