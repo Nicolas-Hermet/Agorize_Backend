@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :person do
-    reference { Faker::Number.unique.number(8) }
+    reference { Faker::Number.unique.number(digits: 8) }
     email { Faker::Internet.email }
     home_phone_number { Faker::PhoneNumber.cell_phone_in_e164 }
     mobile_phone_number { Faker::PhoneNumber.cell_phone_in_e164 }
