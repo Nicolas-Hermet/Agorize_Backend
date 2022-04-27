@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :building do
-    reference { Faker::Number.unique.number(digits: 8) }
+    reference { Faker::Number.unique.number(digits: 8).to_s }
     address { Faker::Address.street_address }
     zip_code { Faker::Address.postcode }
     city { Faker::Address.city }
